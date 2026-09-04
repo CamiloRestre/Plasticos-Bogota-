@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+// TODO: interacciones generales y menú responsive
+=======
 document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.querySelector('.menu-toggle');
   const mainNav = document.querySelector('.main-nav');
@@ -8,6 +11,39 @@ document.addEventListener('DOMContentLoaded', () => {
       menuToggle.setAttribute('aria-expanded', String(isOpen));
     });
   }
+
+  const modalTriggers = document.querySelectorAll('.product-modal-trigger');
+  const modals = document.querySelectorAll('.product-modal');
+  let activeModal = null;
+
+  const closeModal = (modal) => {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    activeModal = null;
+  };
+
+  modalTriggers.forEach((modalTrigger) => {
+    modalTrigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      const modal = document.querySelector(modalTrigger.getAttribute('href'));
+      const modalClose = modal?.querySelector('.product-modal-close');
+      if (!modal || !modalClose) return;
+      modal.hidden = false;
+      activeModal = modal;
+      document.body.classList.add('modal-open');
+      modalClose.focus();
+    });
+  });
+  modals.forEach((modal) => {
+    modal.querySelector('.product-modal-close')?.addEventListener('click', () => closeModal(modal));
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal(modal);
+    });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && activeModal) closeModal(activeModal);
+  });
 
   const form = document.querySelector('#contact-form');
   if (!form) return;
@@ -55,3 +91,4 @@ document.addEventListener('DOMContentLoaded', () => {
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
   });
 });
+>>>>>>> agents/plastico-bogota-web-development
