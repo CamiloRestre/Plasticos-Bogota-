@@ -9,6 +9,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const modal = document.querySelector('#bolsa-basurera-modal');
+  const modalTrigger = document.querySelector('.product-modal-trigger');
+  const modalClose = modal?.querySelector('.product-modal-close');
+
+  const closeModal = () => {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+  };
+
+  if (modal && modalTrigger && modalClose) {
+    modalTrigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      modal.hidden = false;
+      document.body.classList.add('modal-open');
+      modalClose.focus();
+    });
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !modal.hidden) closeModal();
+    });
+  }
+
   const form = document.querySelector('#contact-form');
   if (!form) return;
 
