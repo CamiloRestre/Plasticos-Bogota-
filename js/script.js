@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-// TODO: interacciones generales y menú responsive
-=======
 document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.querySelector('.menu-toggle');
   const mainNav = document.querySelector('.main-nav');
@@ -91,4 +88,3 @@ document.addEventListener('DOMContentLoaded', () => {
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
   });
 });
->>>>>>> agents/plastico-bogota-web-development
