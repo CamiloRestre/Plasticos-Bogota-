@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +14,8 @@
        (ver archivo _headers incluido) porque las meta-etiquetas NO
        protegen contra todo (p.ej. X-Frame-Options no funciona vía meta).
        ========================================================== -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
                  img-src 'self' data:;
                  script-src 'self';
                  style-src 'self';
@@ -30,7 +30,6 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/script.js" defer></script>
 </head>
-
 <body>
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
@@ -94,28 +93,36 @@
             <span class="product-number">03</span>
             <h3>Bolsa precorte</h3>
             <p>Una opción práctica para las necesidades de tu negocio.</p>
-            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+            <button type="button" class="product-modal-trigger" data-modal-target="bolsa-precorte-modal">
+              Ver producto <span aria-hidden="true">→</span>
+            </button>
           </article>
 
           <article class="product-card">
             <span class="product-number">04</span>
             <h3>Bolsa precorte en alta</h3>
             <p>Presentación de alta, disponible para consulta.</p>
-            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+            <button type="button" class="product-modal-trigger" data-modal-target="bolsa-precorte-alta-modal">
+              Ver producto <span aria-hidden="true">→</span>
+            </button>
           </article>
 
           <article class="product-card">
             <span class="product-number">05</span>
             <h3>Bolsa precorte en bio</h3>
             <p>Presentación bio, disponible para consulta.</p>
-            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+            <button type="button" class="product-modal-trigger" data-modal-target="bolsa-precorte-bio-modal">
+              Ver producto <span aria-hidden="true">→</span>
+            </button>
           </article>
 
           <article class="product-card">
             <span class="product-number">06</span>
             <h3>Bolsa manigueta</h3>
             <p>Solución funcional para diferentes usos comerciales.</p>
-            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+            <button type="button" class="product-modal-trigger" data-modal-target="bolsa-manigueta-modal">
+              Ver producto <span aria-hidden="true">→</span>
+            </button>
           </article>
 
           <article class="product-card">
@@ -133,10 +140,7 @@
 
     <section class="service-strip">
       <div class="container service-content">
-        <div>
-          <p class="eyebrow">Estamos para ayudarte</p>
-          <h2>¿Necesitas un producto plástico?</h2>
-        </div>
+        <div><p class="eyebrow">Estamos para ayudarte</p><h2>¿Necesitas un producto plástico?</h2></div>
         <p>Ofrecemos servicio a domicilio. Escríbenos y consulta disponibilidad, atención y formas de pago.</p>
         <a class="button button-white" href="contacto.html">Hablar con un asesor</a>
       </div>
@@ -152,8 +156,7 @@
        en el fondo. Antes estaban mal anidados: ese era el bug.
        ========================================================== -->
 
-  <div id="bolsa-basurera-modal" class="product-modal" role="dialog" aria-modal="true"
-    aria-labelledby="bolsa-basurera-title" hidden>
+  <div id="bolsa-basurera-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-basurera-title" hidden>
     <div class="product-modal-content">
       <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
       <img src="img/bolsa_basurera.jpg" alt="Bolsa basurera" class="product-modal-image" loading="lazy">
@@ -166,8 +169,7 @@
     </div>
   </div>
 
-  <div id="rollo-precorte-modal" class="product-modal" role="dialog" aria-modal="true"
-    aria-labelledby="rollo-precorte-title" hidden>
+  <div id="rollo-precorte-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="rollo-precorte-title" hidden>
     <div class="product-modal-content">
       <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
       <img src="img/precorte.jpg" alt="Rollo precorte" class="product-modal-image" loading="lazy">
@@ -180,8 +182,7 @@
     </div>
   </div>
 
-  <div id="bolsa-hermetica-modal" class="product-modal" role="dialog" aria-modal="true"
-    aria-labelledby="bolsa-hermetica-title" hidden>
+  <div id="bolsa-hermetica-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-hermetica-title" hidden>
     <div class="product-modal-content">
       <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
       <img src="img/bolsa_hermetica.jpg" alt="Bolsa hermética" class="product-modal-image" loading="lazy">
@@ -194,12 +195,63 @@
     </div>
   </div>
 
+  <div id="bolsa-precorte-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-precorte-title" hidden>
+    <div class="product-modal-content">
+      <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
+      <img src="img/bolsa_precorte.jpg" alt="Bolsa precorte" class="product-modal-image" loading="lazy">
+      <div class="product-modal-info">
+        <p class="eyebrow green">Producto destacado</p>
+        <h2 id="bolsa-precorte-title">Bolsa precorte</h2>
+        <p>Una opción práctica para las necesidades de tu negocio.</p>
+        <a class="button button-red" href="contacto.html">Consultar producto</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="bolsa-precorte-alta-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-precorte-alta-title" hidden>
+    <div class="product-modal-content">
+      <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
+      <img src="img/altaybio.jpg" alt="Bolsa precorte en alta" class="product-modal-image" loading="lazy">
+      <div class="product-modal-info">
+        <p class="eyebrow green">Producto destacado</p>
+        <h2 id="bolsa-precorte-alta-title">Bolsa precorte en alta</h2>
+        <p>Presentación de alta, disponible para consulta.</p>
+        <a class="button button-red" href="contacto.html">Consultar producto</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="bolsa-precorte-bio-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-precorte-bio-title" hidden>
+    <div class="product-modal-content">
+      <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
+      <img src="img/altaybio.jpg" alt="Bolsa precorte en bio" class="product-modal-image" loading="lazy">
+      <div class="product-modal-info">
+        <p class="eyebrow green">Producto destacado</p>
+        <h2 id="bolsa-precorte-bio-title">Bolsa precorte en bio</h2>
+        <p>Presentación bio, disponible para consulta.</p>
+        <a class="button button-red" href="contacto.html">Consultar producto</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="bolsa-manigueta-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-manigueta-title" hidden>
+    <div class="product-modal-content">
+      <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
+      <img src="img/bolsa_manigueta.jpg" alt="Bolsa manigueta" class="product-modal-image" loading="lazy">
+      <div class="product-modal-info">
+        <p class="eyebrow green">Producto destacado</p>
+        <h2 id="bolsa-manigueta-title">Bolsa manigueta</h2>
+        <p>Solución funcional para diferentes usos comerciales.</p>
+        <a class="button button-red" href="contacto.html">Consultar producto</a>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
         <a class="brand brand-light" href="index.html">
-          <img class="brand-logo" src="img/logo_bogota.jpg" alt="Plásticos Bogotá" width="48" height="48"
-            loading="lazy">
+          <img class="brand-logo" src="img/logo_bogota.jpg" alt="Plásticos Bogotá" width="48" height="48" loading="lazy">
           <span><strong>Plásticos Bogotá</strong><small>Servimos en Colombia</small></span>
         </a>
         <p class="footer-note">Productos plásticos y atención cercana para Colombia.</p>
@@ -208,9 +260,8 @@
         <h3>Contacto</h3>
         <p>Carrera 25 # 31-20, B/ Salesianos<br>Tuluá - Valle</p>
         <p><a href="tel:2325992">232 5992</a><br>
-          <a href="tel:+573122184430">312 218 4430</a> · <a href="tel:+573187951504">318 795 1504</a><br>
-          <a href="mailto:plasticosbogota@hotmail.com">plasticosbogota@hotmail.com</a>
-        </p>
+           <a href="tel:+573122184430">312 218 4430</a> · <a href="tel:+573187951504">318 795 1504</a><br>
+           <a href="mailto:plasticosbogota@hotmail.com">plasticosbogota@hotmail.com</a></p>
       </div>
       <div>
         <h3>Atención</h3>
@@ -224,5 +275,4 @@
     </div>
   </footer>
 </body>
-
 </html>

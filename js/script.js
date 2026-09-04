@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const VALID_BASURERA_PRESENTATIONS = new Set([
     '90×110 - Calibre 1,7 - Industrial - Rojo',
     '65×90 - Calibre 1,3 - Naranja',
-    '65×90 - Calibre 0,8 - Caliente - Verde',
+    '65×90 - Calibre 0,8 - Verde',
     '50×80 - Calibre 0,8 - Azul',
   ]);
   const VALID_ROLLO_PRESENTATIONS = new Set(['Bio', 'Alta']);
