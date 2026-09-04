@@ -9,31 +9,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const modal = document.querySelector('#bolsa-basurera-modal');
-  const modalTrigger = document.querySelector('.product-modal-trigger');
-  const modalClose = modal?.querySelector('.product-modal-close');
+  const modalTriggers = document.querySelectorAll('.product-modal-trigger');
+  const modals = document.querySelectorAll('.product-modal');
+  let activeModal = null;
 
-  const closeModal = () => {
+  const closeModal = (modal) => {
     if (!modal) return;
     modal.hidden = true;
     document.body.classList.remove('modal-open');
+    activeModal = null;
   };
 
-  if (modal && modalTrigger && modalClose) {
+  modalTriggers.forEach((modalTrigger) => {
     modalTrigger.addEventListener('click', (event) => {
       event.preventDefault();
+      const modal = document.querySelector(modalTrigger.getAttribute('href'));
+      const modalClose = modal?.querySelector('.product-modal-close');
+      if (!modal || !modalClose) return;
       modal.hidden = false;
+      activeModal = modal;
       document.body.classList.add('modal-open');
       modalClose.focus();
     });
-    modalClose.addEventListener('click', closeModal);
+  });
+  modals.forEach((modal) => {
+    modal.querySelector('.product-modal-close')?.addEventListener('click', () => closeModal(modal));
     modal.addEventListener('click', (event) => {
-      if (event.target === modal) closeModal();
+      if (event.target === modal) closeModal(modal);
     });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !modal.hidden) closeModal();
-    });
-  }
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && activeModal) closeModal(activeModal);
+  });
 
   const form = document.querySelector('#contact-form');
   if (!form) return;
