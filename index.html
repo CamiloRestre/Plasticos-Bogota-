@@ -4,20 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Plásticos Bogotá: productos plásticos, domicilios y atención en Colombia.">
+
+  <!-- ==========================================================
+       SEGURIDAD (a nivel de documento)
+       Estas meta-etiquetas son la única forma de aplicar algunas
+       políticas de seguridad cuando el sitio se sirve como archivos
+       estáticos sin control del servidor. Si en el futuro despliegas
+       en Netlify/Vercel/Apache, refuerza esto con cabeceras HTTP reales
+       (ver archivo _headers incluido) porque las meta-etiquetas NO
+       protegen contra todo (p.ej. X-Frame-Options no funciona vía meta).
+       ========================================================== -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 img-src 'self' data:;
+                 script-src 'self';
+                 style-src 'self';
+                 form-action 'self';
+                 base-uri 'self';
+                 object-src 'none';
+                 frame-ancestors 'self';
+                 upgrade-insecure-requests;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <title>Plásticos Bogotá | Servimos en Colombia</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/script.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="index.html" aria-label="Plásticos Bogotá, inicio">
-        <img class="brand-logo" src="img/logo_bogota.jpg" alt="Plásticos Bogotá">
+        <img class="brand-logo" src="img/logo_bogota.jpg" alt="Plásticos Bogotá" width="48" height="48" loading="eager">
         <span class="brand-text"><strong>Plásticos Bogotá</strong><small>Servimos en Colombia</small></span>
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menú</button>
       <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
-        <a class="active" href="index.html">Inicio</a>
+        <a class="active" href="index.html" aria-current="page">Inicio</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="clientes.html">Clientes</a>
         <a href="contacto.html">Contacto</a>
@@ -25,7 +49,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="hero">
       <div class="container hero-content">
         <p class="eyebrow">Calidad y servicio para tu negocio</p>
@@ -46,66 +70,149 @@
           <p>Consulta disponibilidad y presentación con nuestro equipo.</p>
         </div>
         <div class="product-grid">
-          <article class="product-card featured"><span class="product-number">01</span><h3>Bolsa basurera</h3><p>Variantes industriales y de uso general en diferentes medidas, calibres y empaques.</p><a class="product-modal-trigger" href="#bolsa-basurera-modal" aria-controls="bolsa-basurera-modal">Ver producto <span>→</span></a></article>
-          <article class="product-card"><span class="product-number">02</span><h3>Rollo precorte</h3><p>Presentaciones Bio y Alta. Medidas disponibles por confirmar.</p><a class="product-modal-trigger" href="#rollo-precorte-modal" aria-controls="rollo-precorte-modal">Ver producto <span>→</span></a></article>
-          <article class="product-card"><span class="product-number">03</span><h3>Bolsa precorte</h3><p>Una opción práctica para las necesidades de tu negocio.</p><a href="contacto.html">Consultar producto <span>→</span></a></article>
-          <article class="product-card"><span class="product-number">04</span><h3>Bolsa precorte en alta</h3><p>Presentación de alta, disponible para consulta.</p><a href="contacto.html">Consultar producto <span>→</span></a></article>
-          <article class="product-card"><span class="product-number">05</span><h3>Bolsa precorte en bio</h3><p>Presentación bio, disponible para consulta.</p><a href="contacto.html">Consultar producto <span>→</span></a></article>
-          <article class="product-card"><span class="product-number">06</span><h3>Bolsa manigueta</h3><p>Solución funcional para diferentes usos comerciales.</p><a href="contacto.html">Consultar producto <span>→</span></a></article>
-          <article class="product-card"><span class="product-number">07</span><h3>Bolsa hermética</h3><p>Consulta existencias y presentación con un asesor.</p><a class="product-modal-trigger" href="#bolsa-hermetica-modal" aria-controls="bolsa-hermetica-modal">Ver producto <span>→</span></a></article>
+
+          <article class="product-card featured">
+            <span class="product-number">01</span>
+            <h3>Bolsa basurera</h3>
+            <p>Variantes industriales y de uso general en diferentes medidas, calibres y empaques.</p>
+            <button type="button" class="product-modal-trigger" data-modal-target="bolsa-basurera-modal">
+              Ver producto <span aria-hidden="true">→</span>
+            </button>
+          </article>
+
+          <article class="product-card">
+            <span class="product-number">02</span>
+            <h3>Rollo precorte</h3>
+            <p>Presentaciones Bio y Alta. Medidas disponibles por confirmar.</p>
+            <button type="button" class="product-modal-trigger" data-modal-target="rollo-precorte-modal">
+              Ver producto <span aria-hidden="true">→</span>
+            </button>
+          </article>
+
+          <article class="product-card">
+            <span class="product-number">03</span>
+            <h3>Bolsa precorte</h3>
+            <p>Una opción práctica para las necesidades de tu negocio.</p>
+            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="product-card">
+            <span class="product-number">04</span>
+            <h3>Bolsa precorte en alta</h3>
+            <p>Presentación de alta, disponible para consulta.</p>
+            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="product-card">
+            <span class="product-number">05</span>
+            <h3>Bolsa precorte en bio</h3>
+            <p>Presentación bio, disponible para consulta.</p>
+            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="product-card">
+            <span class="product-number">06</span>
+            <h3>Bolsa manigueta</h3>
+            <p>Solución funcional para diferentes usos comerciales.</p>
+            <a href="contacto.html">Consultar producto <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="product-card">
+            <span class="product-number">07</span>
+            <h3>Bolsa hermética</h3>
+            <p>Consulta existencias y presentación con un asesor.</p>
+            <button type="button" class="product-modal-trigger" data-modal-target="bolsa-hermetica-modal">
+              Ver producto <span aria-hidden="true">→</span>
+            </button>
+          </article>
+
         </div>
       </div>
     </section>
 
     <section class="service-strip">
-      <div class="container service-content"><div><p class="eyebrow">Estamos para ayudarte</p><h2>¿Necesitas un producto plástico?</h2></div><p>Ofrecemos servicio a domicilio. Escríbenos y consulta disponibilidad, atención y formas de pago.</p><a class="button button-white" href="contacto.html">Hablar con un asesor</a></div>
+      <div class="container service-content">
+        <div><p class="eyebrow">Estamos para ayudarte</p><h2>¿Necesitas un producto plástico?</h2></div>
+        <p>Ofrecemos servicio a domicilio. Escríbenos y consulta disponibilidad, atención y formas de pago.</p>
+        <a class="button button-white" href="contacto.html">Hablar con un asesor</a>
+      </div>
     </section>
   </main>
+
+  <!-- ==========================================================
+       MODALES DE PRODUCTO
+       IMPORTANTE: deben ser hermanos entre sí (hijos directos del
+       body), NUNCA anidados unos dentro de otros. Un <div> con
+       position:fixed anidado dentro de otro position:fixed rompe
+       el posicionamiento, el foco de teclado y el cierre por clic
+       en el fondo. Antes estaban mal anidados: ese era el bug.
+       ========================================================== -->
 
   <div id="bolsa-basurera-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-basurera-title" hidden>
     <div class="product-modal-content">
       <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
-      <img src="img/bolsa_basurera.jpg" alt="Bolsa basurera" class="product-modal-image">
+      <img src="img/bolsa_basurera.jpg" alt="Bolsa basurera" class="product-modal-image" loading="lazy">
       <div class="product-modal-info">
         <p class="eyebrow green">Producto destacado</p>
         <h2 id="bolsa-basurera-title">Bolsa basurera</h2>
         <p>Variantes industriales y de uso general en diferentes medidas, calibres y empaques.</p>
         <a class="button button-red" href="contacto.html">Consultar producto</a>
       </div>
-      <div id="rollo-precorte-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="rollo-precorte-title" hidden>
-        <div class="product-modal-content">
-          <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
-          <img src="img/precorte.jpg" alt="Rollo precorte" class="product-modal-image">
-          <div class="product-modal-info">
-            <p class="eyebrow green">Producto destacado</p>
-            <h2 id="rollo-precorte-title">Rollo precorte</h2>
-            <p>Presentaciones Bio y Alta. Medidas disponibles por confirmar.</p>
-            <a class="button button-red" href="contacto.html">Consultar producto</a>
-          </div>
-        </div>
+    </div>
+  </div>
+
+  <div id="rollo-precorte-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="rollo-precorte-title" hidden>
+    <div class="product-modal-content">
+      <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
+      <img src="img/precorte.jpg" alt="Rollo precorte" class="product-modal-image" loading="lazy">
+      <div class="product-modal-info">
+        <p class="eyebrow green">Producto destacado</p>
+        <h2 id="rollo-precorte-title">Rollo precorte</h2>
+        <p>Presentaciones Bio y Alta. Medidas disponibles por confirmar.</p>
+        <a class="button button-red" href="contacto.html">Consultar producto</a>
       </div>
-      <div id="bolsa-hermetica-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-hermetica-title" hidden>
-        <div class="product-modal-content">
-          <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
-          <img src="img/bolsa_hermetica.jpg" alt="Bolsa hermética" class="product-modal-image">
-          <div class="product-modal-info">
-            <p class="eyebrow green">Producto destacado</p>
-            <h2 id="bolsa-hermetica-title">Bolsa hermética</h2>
-            <p>Consulta existencias y presentación con un asesor.</p>
-            <a class="button button-red" href="contacto.html">Consultar producto</a>
-          </div>
-        </div>
+    </div>
+  </div>
+
+  <div id="bolsa-hermetica-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="bolsa-hermetica-title" hidden>
+    <div class="product-modal-content">
+      <button class="product-modal-close" type="button" aria-label="Cerrar ventana">&times;</button>
+      <img src="img/bolsa_hermetica.jpg" alt="Bolsa hermética" class="product-modal-image" loading="lazy">
+      <div class="product-modal-info">
+        <p class="eyebrow green">Producto destacado</p>
+        <h2 id="bolsa-hermetica-title">Bolsa hermética</h2>
+        <p>Consulta existencias y presentación con un asesor.</p>
+        <a class="button button-red" href="contacto.html">Consultar producto</a>
       </div>
     </div>
   </div>
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <div><a class="brand brand-light" href="index.html"><img class="brand-logo" src="img/logo_bogota.jpg" alt="Plásticos Bogotá"><span><strong>Plásticos Bogotá</strong><small>Servimos en Colombia</small></span></a><p class="footer-note">Productos plásticos y atención cercana para Colombia.</p></div>
-      <div><h3>Contacto</h3><p>Carrera 25 # 31-20, B/ Salesianos<br>Tuluá - Valle</p><p><a href="tel:2325992">232 5992</a><br><a href="tel:+573122184430">312 218 4430</a> · <a href="tel:+573187951504">318 795 1504</a><br><a href="mailto:plasticosbogota@hotmail.com">plasticosbogota@hotmail.com</a></p></div>
-      <div><h3>Atención</h3><p>Lun-Vie: 8:00am-12:00m y 2:00pm-5:30pm<br>Sáb: 8:00am-12:30pm<br>Dom/festivos: cerrado</p><p>Domicilios · Parqueadero</p></div>
+      <div>
+        <a class="brand brand-light" href="index.html">
+          <img class="brand-logo" src="img/logo_bogota.jpg" alt="Plásticos Bogotá" width="48" height="48" loading="lazy">
+          <span><strong>Plásticos Bogotá</strong><small>Servimos en Colombia</small></span>
+        </a>
+        <p class="footer-note">Productos plásticos y atención cercana para Colombia.</p>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <p>Carrera 25 # 31-20, B/ Salesianos<br>Tuluá - Valle</p>
+        <p><a href="tel:2325992">232 5992</a><br>
+           <a href="tel:+573122184430">312 218 4430</a> · <a href="tel:+573187951504">318 795 1504</a><br>
+           <a href="mailto:plasticosbogota@hotmail.com">plasticosbogota@hotmail.com</a></p>
+      </div>
+      <div>
+        <h3>Atención</h3>
+        <p>Lun-Vie: 8:00am-12:00m y 2:00pm-5:30pm<br>Sáb: 8:00am-12:30pm<br>Dom/festivos: cerrado</p>
+        <p>Domicilios · Parqueadero</p>
+      </div>
     </div>
-    <div class="container footer-bottom"><span>© 2026 Plásticos Bogotá. Todos los derechos reservados.</span><span>Efectivo · Tarjeta sin intereses · Transferencia bancaria</span></div>
+    <div class="container footer-bottom">
+      <span>© 2026 Plásticos Bogotá. Todos los derechos reservados.</span>
+      <span>Efectivo · Tarjeta sin intereses · Transferencia bancaria</span>
+    </div>
   </footer>
 </body>
 </html>

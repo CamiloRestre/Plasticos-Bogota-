@@ -1,0 +1,15 @@
+# Cabeceras de seguridad para Netlify.
+# Las meta-etiquetas en el <head> de cada página ya aplican CSP y
+# referrer-policy, pero algunas protecciones (X-Frame-Options,
+# X-Content-Type-Options, Permissions-Policy) SOLO funcionan como
+# cabecera HTTP real, no como <meta>. Este archivo las agrega si
+# despliegas el sitio en Netlify. Si usas otro hosting (Apache,
+# GitHub Pages, etc.), busca el equivalente (.htaccess, netlify.toml,
+# vercel.json) para aplicar lo mismo.
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload

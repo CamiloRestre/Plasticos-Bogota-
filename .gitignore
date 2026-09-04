@@ -1,1 +1,89 @@
-# TODO: reglas de exclusión previstas en la Fase 2
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+secrets.*
+credentials.*
+*.secret
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.suo
+*.user
+*.swp
+*.swo
+
+# Registros y archivos temporales
+*.log
+logs/
+*.tmp
+*.temp
+*.bak
+*.orig
+*.pid
+
+# Dependencias y cachés
+node_modules/
+vendor/
+.npm/
+.yarn/
+.pnp.*
+coverage/
+.coverage/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.ruff_cache/
+.tox/
+.venv/
+venv/
+env/
+
+# Artefactos de compilación
+dist/
+build/
+out/
+target/
+bin/
+obj/
+*.class
+*.dll
+*.exe
+*.msi
+
+# Frameworks y herramientas
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+.turbo/
+.angular/
+.eslintcache
+
+# Bases de datos locales y volcados
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql.bak
+
+# Infraestructura local
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.firebase/
+.serverless/
+.vercel/
