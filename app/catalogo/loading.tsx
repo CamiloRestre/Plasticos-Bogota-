@@ -1,0 +1,3 @@
+export default function Loading() {
+  return <main><section className="section" style={{ paddingBottom: 35 }}><div className="shell"><div className="skeleton skeleton-kicker" /><div className="skeleton skeleton-title" /></div></section><section className="catalog-shell shell"><div className="catalog-grid">{Array.from({ length: 6 }, (_, index) => <div className="catalog-card skeleton-card" key={index}><div className="skeleton skeleton-image" /><div className="product-copy"><div className="skeleton skeleton-line" /><div className="skeleton skeleton-line short" /></div></div>)}</div></section></main>;
+}

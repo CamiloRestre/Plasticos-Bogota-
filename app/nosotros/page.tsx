@@ -1,0 +1,3 @@
+export default function NosotrosPage() {
+  return <main><section className="section"><div className="shell"><p className="eyebrow">Quiénes somos</p><h1 style={{ fontSize: "clamp(3rem,7vw,5.8rem)", lineHeight: .95, letterSpacing: "-.06em", maxWidth: 850 }}>Una atención que construye confianza.</h1><p style={{ maxWidth: 600, color: "var(--muted)", fontSize: 20, marginTop: 26 }}>Servimos en Colombia con productos prácticos y un equipo dispuesto a ayudarte.</p></div></section><section className="service-band"><div className="shell"><div><p className="eyebrow">Nuestra forma de servir</p><h2>Cercanía para tomar mejores decisiones.</h2><p>Escuchamos la necesidad, orientamos sobre referencias y confirmamos disponibilidad con transparencia.</p></div></div></section></main>;
+}

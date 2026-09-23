@@ -1,32 +1,49 @@
-# 🏢 Plasticos Bogotá
+# Plásticos Bogotá
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+Catálogo web responsive para descubrir productos plásticos y enviar solicitudes de cotización por WhatsApp.
 
-## 📋 Descripción
+## Estructura
 
-**Plasticos Bogotá** es un sitio web corporativo desarrollado para una empresa dedicada a la comercialización y distribución de productos plásticos en la ciudad de Bogotá y sus alrededores. El proyecto busca ofrecer una presencia digital profesional que permita a los clientes conocer los productos, servicios y la trayectoria de la empresa.
+```text
+app/                 Rutas App Router, layout, estilos globales y providers
+components/          Header, footer y navegador interactivo del catálogo
+lib/                 Tipos, datos locales, utilidades y clientes Supabase
+public/img/           Assets servidos por Next.js
+supabase/             Schema y seed ejecutables en Supabase
+docs/catalogo/        PDFs de referencia del catálogo original
+```
 
-## ✨ Características principales
+## Ejecutar localmente
 
-- ✅ **Diseño responsive** - Adaptable a dispositivos móviles, tablets y escritorio
-- ✅ **Interfaz moderna** - Estilos actuales con CSS3 y animaciones sutiles
-- ✅ **Navegación intuitiva** - Menú claro y estructura de contenido organizada
-- ✅ **Formulario de contacto** - Comunicación directa con los clientes
-- ✅ **Catálogo de productos** - Visualización de productos y servicios
-- ✅ **Optimización SEO** - Estructura HTML semántica para mejor posicionamiento
+```bash
+npm install
+npm run dev
+```
 
-## 🚀 Tecnologías utilizadas
+La vista pública funciona con datos locales para que el proyecto pueda previsualizarse sin credenciales. Copia `.env.local.example` a `.env.local` para preparar la conexión de Supabase.
 
-| Tecnología | Descripción |
-|------------|-------------|
-| **HTML5** | Estructura y semántica del contenido |
-| **CSS3** | Estilos, animaciones y diseño responsive |
-| **JavaScript** | Interactividad y funcionalidades dinámicas |
-| **Git** | Control de versiones |
-| **GitHub** | Repositorio remoto y despliegue |
+## Supabase
 
-## 📁 Estructura del proyecto
+1. Crea un proyecto en Supabase.
+2. Ejecuta [`supabase/schema.sql`](./supabase/schema.sql) en el SQL Editor.
+3. Ejecuta [`supabase/seed.sql`](./supabase/seed.sql).
+4. Configura `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` y `SUPABASE_SERVICE_ROLE_KEY`.
+
+Las imágenes semilla permanecen en [`public/img/`](./public/img). El bucket público `productos` está incluido en el schema para futuras cargas administradas.
+
+## Rutas
+
+- `/` — entrada y propuesta de valor.
+- `/catalogo` — búsqueda, categorías, detalle de variantes y cotización.
+- `/nosotros` — historia y forma de servir.
+- `/contacto` — canales de atención.
+- `/admin` — resumen inicial para el equipo.
+
+## Deploy en Render
+
+Usa un servicio web Node con:
+
+- Build command: `npm install && npm run build`
+- Start command: `npm start`
+
+El proyecto genera una build de Next.js 14 y es compatible con `next start`.
