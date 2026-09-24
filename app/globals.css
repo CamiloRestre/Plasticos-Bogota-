@@ -1219,7 +1219,51 @@ h3,
   text-align: center;
 }
 
+.admin-breadcrumb { display: flex; gap: 9px; margin-bottom: 22px; color: var(--muted); font-size: .8rem; }
+.admin-breadcrumb a { color: var(--green); font-weight: 700; text-decoration: none; }
+.admin-editor { display: grid; gap: 20px; }
+.admin-editor-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .82fr); gap: 20px; align-items: start; }
+.admin-panel { padding: 26px; border: 1px solid var(--line); border-radius: 16px; background: var(--white); box-shadow: var(--shadow-soft); }
+.admin-panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; color: var(--green); }
+.admin-panel-heading .eyebrow { margin: 0 0 5px; }
+.admin-panel-heading h2 { margin: 0; color: var(--forest); font-size: 1.35rem; }
+.admin-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
+.admin-field-wide { grid-column: 1 / -1; }
+.admin-textarea { width: 100%; resize: vertical; }
+.admin-checks { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 22px; color: var(--forest); font-size: .875rem; font-weight: 600; }
+.admin-checks label { display: flex; align-items: center; gap: 8px; }
+.admin-checks input { accent-color: var(--green); }
+.admin-help { margin: -12px 0 18px; color: var(--muted); font-size: .82rem; }
+.admin-upload { display: inline-flex; align-items: center; gap: 9px; min-height: 42px; padding: 9px 14px; border: 1px dashed #9ec6a9; border-radius: 10px; color: var(--forest); background: var(--mint); cursor: pointer; font-size: .84rem; font-weight: 700; }
+.admin-upload input, .admin-photo-action input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.admin-photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.admin-photo { overflow: hidden; margin: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
+.admin-photo img { display: block; width: 100%; aspect-ratio: 1.2; object-fit: cover; }
+.admin-photo figcaption { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 9px; color: var(--muted); font-size: .72rem; font-weight: 700; }
+.admin-photo figcaption > div { display: flex; gap: 4px; }
+.admin-photo-action { position: relative; display: inline-grid; place-items: center; width: 29px; height: 29px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; cursor: pointer; }
+.admin-photo-action:hover { color: var(--forest); background: var(--mint); }
+.admin-photo-action.danger:hover { color: var(--red); background: rgba(230, 77, 62, .1); }
+.admin-photo-action:disabled { cursor: wait; opacity: .5; }
+.admin-photo-empty { display: grid; place-items: center; gap: 8px; min-height: 165px; margin-top: 20px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); font-size: .82rem; text-align: center; }
+.admin-variants-panel { padding-bottom: 12px; }
+.admin-variant-list { display: grid; gap: 0; }
+.admin-variant-row { display: grid; grid-template-columns: minmax(130px, 1.2fr) repeat(3, minmax(105px, 1fr)); align-items: end; gap: 12px; padding: 15px 0; border-top: 1px solid var(--line); }
+.admin-variant-row strong { align-self: center; color: var(--forest); font-size: .85rem; }
+.admin-variant-row label { display: grid; gap: 5px; color: var(--muted); font-size: .7rem; font-weight: 700; }
+.admin-variant-row .admin-input { min-height: 40px; padding: 8px 10px; }
+.admin-success { margin: 0; padding: 12px 14px; border: 1px solid rgba(47, 125, 79, .2); border-radius: 10px; background: #eaf5ed; color: var(--forest); font-size: .9rem; }
+.admin-editor-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.admin-editor-actions .admin-btn { min-width: 150px; justify-content: center; }
+.admin-spin { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
 @media (max-width: 760px) {
+  .admin-editor-grid { grid-template-columns: 1fr; }
+  .admin-panel { padding: 20px; }
+  .admin-variant-row { grid-template-columns: 1fr 1fr; }
+  .admin-variant-row strong { grid-column: 1 / -1; }
+
   .admin-table-wrapper {
     border: 0;
     background: transparent;
@@ -1390,6 +1434,11 @@ h3,
 }
 
 @media (max-width: 560px) {
+  .admin-form-grid { grid-template-columns: 1fr; }
+  .admin-field-wide { grid-column: auto; }
+  .admin-editor-actions { flex-direction: column; }
+  .admin-editor-actions .admin-btn { width: 100%; }
+
   .hero > .shell {
     padding: 75px 0 90px;
   }
