@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Copy, Package, Pencil, Search, Star, Trash2 } from "lucide-react";
+import type { Product } from "@/lib/catalog";
 import {
   deleteProducto,
   duplicateProducto,
@@ -30,24 +31,49 @@ export type AdminProduct = {
 };
 
 type ProductTableProps = {
-  products: AdminProduct[];
-  categories: AdminCategory[];
+  products: AdminProduct[] | Product[];
+  categories?: AdminCategory[];
+  embedded?: boolean;
 };
 
-export default function ProductTable({ products, categories }: ProductTableProps) {
+function isAdminProduct(product: AdminProduct | Product): product is AdminProduct {
+  return "active" in product && "categoryId" in product;
+}
+
+function normalizeProducts(products: AdminProduct[] | Product[]): AdminProduct[] {
+  return products.map((product) => {
+    if (isAdminProduct(product)) return product;
+
+    return {
+      id: product.id,
+      name: product.name,
+      slug: null,
+      category: product.category,
+      categoryId: null,
+      active: true,
+      featured: product.featured,
+      variantCount: product.variants.length,
+      imageUrl: product.image,
+      updatedAt: null,
+    };
+  });
+}
+
+export default function ProductTable({ products, categories = [], embedded = false }: ProductTableProps) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
   const [isPending, startTransition] = useTransition();
+  const normalizedProducts = useMemo(() => normalizeProducts(products), [products]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setDebouncedSearch(search.trim().toLowerCase()), 300);
     return () => window.clearTimeout(timer);
   }, [search]);
 
-  const filteredProducts = useMemo(() => products.filter((product) => {
+  const filteredProducts = useMemo(() => normalizedProducts.filter((product) => {
     const matchesSearch =
       !debouncedSearch ||
       product.name.toLowerCase().includes(debouncedSearch) ||
@@ -59,7 +85,7 @@ export default function ProductTable({ products, categories }: ProductTableProps
       (status === "inactive" && !product.active);
 
     return matchesSearch && matchesCategory && matchesStatus;
-  }), [category, debouncedSearch, products, status]);
+  }), [category, debouncedSearch, normalizedProducts, status]);
 
   function runAction(action: () => Promise<void>) {
     startTransition(async () => {
@@ -87,7 +113,7 @@ export default function ProductTable({ products, categories }: ProductTableProps
 
   return (
     <section aria-label="Listado de productos">
-      <div className="admin-filters">
+      {!embedded && <div className="admin-filters">
         <label className="admin-search">
           <Search size={17} aria-hidden="true" />
           <span className="sr-only">Buscar productos</span>
@@ -114,8 +140,8 @@ export default function ProductTable({ products, categories }: ProductTableProps
             <option value="inactive">Inactivos</option>
           </select>
         </label>
-        <span className="admin-results">Mostrando {filteredProducts.length} de {products.length}</span>
-      </div>
+        <span className="admin-results">Mostrando {filteredProducts.length} de {normalizedProducts.length}</span>
+      </div>}
 
       {filteredProducts.length === 0 ? (
         <div className="admin-empty">No hay productos que coincidan con los filtros.</div>
@@ -127,8 +153,8 @@ export default function ProductTable({ products, categories }: ProductTableProps
                 <th scope="col">Producto</th>
                 <th scope="col">Categoría</th>
                 <th scope="col">Variantes</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Destacado</th>
+                {!embedded && <th scope="col">Estado</th>}
+                {!embedded && <th scope="col">Destacado</th>}
                 <th scope="col"><span className="sr-only">Acciones</span></th>
               </tr>
             </thead>
@@ -147,21 +173,23 @@ export default function ProductTable({ products, categories }: ProductTableProps
                   </td>
                   <td data-label="Categoría">{product.category}</td>
                   <td data-label="Variantes">{product.variantCount}</td>
-                  <td data-label="Estado">
+                  {!embedded && <td data-label="Estado">
                     <button className={`admin-badge ${product.active ? "active" : "inactive"}`} onClick={(event) => { event.stopPropagation(); runAction(() => toggleActivo(product.id, !product.active)); }}>
                       {product.active ? "Activo" : "Inactivo"}
                     </button>
-                  </td>
-                  <td data-label="Destacado">
+                  </td>}
+                  {!embedded && <td data-label="Destacado">
                     <button className={`admin-featured-toggle ${product.featured ? "is-featured" : ""}`} aria-label={product.featured ? "Quitar destacado" : "Marcar como destacado"} onClick={(event) => { event.stopPropagation(); runAction(() => toggleDestacado(product.id, !product.featured)); }}>
                       <Star size={16} fill={product.featured ? "currentColor" : "none"} aria-hidden="true" />
                     </button>
-                  </td>
+                  </td>}
                   <td data-label="Acciones">
                     <div className="admin-actions" onClick={(event) => event.stopPropagation()}>
                       <button className="admin-icon-btn" aria-label={`Editar ${product.name}`} onClick={() => router.push(`/admin/productos/${product.id}`)}><Pencil size={16} /></button>
-                      <button className="admin-icon-btn" aria-label={`Duplicar ${product.name}`} onClick={() => handleDuplicate(product)}><Copy size={16} /></button>
-                      <button className="admin-icon-btn admin-icon-btn-danger" aria-label={`Eliminar ${product.name}`} onClick={() => handleDelete(product)}><Trash2 size={16} /></button>
+                      {!embedded && <>
+                        <button className="admin-icon-btn" aria-label={`Duplicar ${product.name}`} onClick={() => handleDuplicate(product)}><Copy size={16} /></button>
+                        <button className="admin-icon-btn admin-icon-btn-danger" aria-label={`Eliminar ${product.name}`} onClick={() => handleDelete(product)}><Trash2 size={16} /></button>
+                      </>}
                     </div>
                   </td>
                 </tr>
