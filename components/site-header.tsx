@@ -2,12 +2,21 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="shell header-inner">
         <Link className="brand" href="/" onClick={() => setOpen(false)}>
           <span className="brand-mark" aria-hidden="true">
@@ -21,10 +30,10 @@ export function SiteHeader() {
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
         <nav className={open ? "main-nav open" : "main-nav"} aria-label="Navegación principal">
-          <Link href="/catalogo" onClick={() => setOpen(false)}>Catálogo</Link>
-          <Link href="/nosotros" onClick={() => setOpen(false)}>Nosotros</Link>
-          <Link href="/contacto" onClick={() => setOpen(false)}>Contacto</Link>
-          <Link className="nav-cta" href="/catalogo" onClick={() => setOpen(false)}>Ver productos</Link>
+          <Link href="#catalogo" onClick={() => setOpen(false)}>Catálogo</Link>
+          <Link href="#servicio" onClick={() => setOpen(false)}>Nosotros</Link>
+          <Link href="#contacto" onClick={() => setOpen(false)}>Contacto</Link>
+          <Link className="nav-cta" href="#catalogo" onClick={() => setOpen(false)}>Ver productos</Link>
         </nav>
       </div>
     </header>
