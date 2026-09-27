@@ -2,12 +2,15 @@ import Link from "next/link";
 import { getCatalogData } from "@/lib/catalog-server";
 import { formatCop } from "@/lib/catalog";
 import { ProductImage } from "@/components/product-image";
+import dynamic from "next/dynamic";
+
+const AnimatedCanvas = dynamic(() => import("@/components/animated-canvas"), { ssr: false });
 
 export default async function Home() {
   const { products } = await getCatalogData();
   const featuredProducts = products.filter((product) => product.featured).slice(0, 3);
   return <main>
-    <section className="hero"><div className="shell">
+    <section className="hero"><AnimatedCanvas particleCount={80} /><div className="shell">
       <p className="eyebrow">Empaques que resuelven</p>
       <h1>Soluciones plásticas para cada día.</h1>
       <p>Encuentra productos prácticos, presentaciones claras y atención cercana para hogares, comercios y empresas.</p>
