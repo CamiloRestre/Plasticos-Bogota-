@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import type { ProductInput, VariantInput } from "@/lib/types";
 
 export type ProductImageActionResult = {
   id: string;
@@ -29,6 +30,39 @@ async function requireUser() {
 function revalidateProducts() {
   revalidatePath("/admin/productos");
   revalidatePath("/catalogo");
+}
+
+function slugify(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+export async function createProducto(input: ProductInput, variants: VariantInput[] = []) {
+  const { supabase } = await requireUser();
+  const nombre = input.nombre.trim();
+  if (!nombre) throw new Error("El nombre del producto es obligatorio.");
+
+  const { data: product, error } = await supabase
+    .from("productos")
+    .insert({
+      nombre,
+      descripcion: input.descripcion?.trim() || null,
+      slug: slugify(input.nombre),
+      categoria_id: input.categoria_id || null,
+      activo: input.activo ?? true,
+      destacado: input.destacado ?? false,
+    })
+    .select("id")
+    .single();
+
+  if (error || !product) throw new Error(`No fue posible crear el producto: ${error?.message ?? "error desconocido"}`);
+  if (variants.length) {
+    const { error: variantsError } = await supabase.from("variantes").insert(
+      variants.map(({ id: _id, ...variant }, index) => ({ ...variant, producto_id: product.id, orden: variant.orden ?? index })),
+    );
+    if (variantsError) throw new Error(`El producto fue creado, pero fallaron sus variantes: ${variantsError.message}`);
+  }
+  revalidateProducts();
+  return product.id;
 }
 
 function storagePath(url: string) {
@@ -76,7 +110,7 @@ export async function updateProducto(formData: FormData) {
     .update({
       nombre,
       descripcion: String(formData.get("descripcion") ?? "").trim() || null,
-      slug: String(formData.get("slug") ?? "").trim() || null,
+      slug: slugify(nombre),
       categoria_id: String(formData.get("categoria_id") ?? "") || null,
       activo: formData.get("activo") === "on",
       destacado: formData.get("destacado") === "on",
@@ -94,6 +128,8 @@ export async function updateProducto(formData: FormData) {
     const { error: variantError } = await supabase
       .from("variantes")
       .update({
+        medida: String(formData.get(`variant_${variantId}_medida`) ?? "").trim() || null,
+        cantidad_unidades: Number(formData.get(`variant_${variantId}_cantidad_unidades`) ?? 0) || null,
         precio_bulto: numberValue("precio_bulto"),
         precio_unidad: numberValue("precio_unidad"),
         precio_kilo: numberValue("precio_kilo"),

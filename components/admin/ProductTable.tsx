@@ -28,12 +28,17 @@ export type AdminProduct = {
   variantCount: number;
   imageUrl: string | null;
   updatedAt: string | null;
+  descripcion?: string | null;
+  variantes?: Array<{ id: string; medida: string | null; calibre: string | null; presentacion: string | null; precio_bulto: number | null; precio_unidad: number | null; precio_kilo: number | null; stock: number | null; cantidad_unidades?: number | null }>;
+  images?: Array<{ id: string; producto_id: string; url: string; alt: string | null; es_principal: boolean; orden: number; publicUrl: string }>;
 };
 
 type ProductTableProps = {
   products: AdminProduct[] | Product[];
   categories?: AdminCategory[];
   embedded?: boolean;
+  onEdit?: (product: AdminProduct) => void;
+  onCreate?: () => void;
 };
 
 function isAdminProduct(product: AdminProduct | Product): product is AdminProduct {
@@ -59,7 +64,7 @@ function normalizeProducts(products: AdminProduct[] | Product[]): AdminProduct[]
   });
 }
 
-export default function ProductTable({ products, categories = [], embedded = false }: ProductTableProps) {
+export default function ProductTable({ products, categories = [], embedded = false, onEdit, onCreate }: ProductTableProps) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -107,8 +112,9 @@ export default function ProductTable({ products, categories = [], embedded = fal
     runAction(() => duplicateProducto(product.id));
   }
 
-  function handleRowClick(id: string) {
-    if (!isPending) router.push(`/admin/productos/${id}`);
+  function handleRowClick(product: AdminProduct) {
+    if (isPending) return;
+    onEdit?.(product);
   }
 
   return (
@@ -160,7 +166,7 @@ export default function ProductTable({ products, categories = [], embedded = fal
             </thead>
             <tbody>
               {filteredProducts.map((product) => (
-                <tr className="admin-row" key={product.id} onClick={() => handleRowClick(product.id)}>
+                <tr className="admin-row" key={product.id} onClick={() => handleRowClick(product)}>
                   <td>
                     <div className="admin-product-cell">
                       {product.imageUrl ? (
@@ -185,7 +191,7 @@ export default function ProductTable({ products, categories = [], embedded = fal
                   </td>}
                   <td data-label="Acciones">
                     <div className="admin-actions" onClick={(event) => event.stopPropagation()}>
-                      <button className="admin-icon-btn" aria-label={`Editar ${product.name}`} onClick={() => router.push(`/admin/productos/${product.id}`)}><Pencil size={16} /></button>
+                      <button className="admin-icon-btn" aria-label={`Editar ${product.name}`} onClick={() => onEdit?.(product)}><Pencil size={16} /></button>
                       {!embedded && <>
                         <button className="admin-icon-btn" aria-label={`Duplicar ${product.name}`} onClick={() => handleDuplicate(product)}><Copy size={16} /></button>
                         <button className="admin-icon-btn admin-icon-btn-danger" aria-label={`Eliminar ${product.name}`} onClick={() => handleDelete(product)}><Trash2 size={16} /></button>

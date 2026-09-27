@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import { Providers } from "./providers";
+import { SiteWrapper } from "@/components/site-wrapper";
 
 export const metadata: Metadata = {
   title: "Plásticos Bogotá | Soluciones en empaques",
@@ -14,9 +13,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="es">
       <body>
         <Providers>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <SiteWrapper>{children}</SiteWrapper>
         </Providers>
       </body>
     </html>

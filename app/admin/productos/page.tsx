@@ -1,13 +1,13 @@
-import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import ProductTable, { type AdminProduct, type AdminCategory } from "@/components/admin/ProductTable";
+import ProductListClient from "@/components/admin/ProductListClient";
+import { type AdminProduct, type AdminCategory } from "@/components/admin/ProductTable";
 
 export default async function AdminProductosPage() {
   const supabase = await createSupabaseServerClient();
   const [productsResult, categoriesResult] = await Promise.all([
     supabase
       .from("productos")
-      .select("id,categoria_id,nombre,slug,activo,destacado,updated_at,categorias(nombre,slug),variantes(id),imagenes(url,es_principal,orden)")
+      .select("id,categoria_id,nombre,descripcion,slug,activo,destacado,updated_at,categorias(nombre,slug),variantes(id,medida,calibre,presentacion,precio_bulto,precio_unidad,precio_kilo,stock,cantidad_unidades),imagenes(id,producto_id,url,alt,es_principal,orden)")
       .order("updated_at", { ascending: false }),
     supabase.from("categorias").select("id,nombre,slug").order("orden", { ascending: true }),
   ]);
@@ -41,6 +41,17 @@ export default async function AdminProductosPage() {
           : supabase.storage.from("productos").getPublicUrl(images[0].url).data.publicUrl
         : null,
       updatedAt: product.updated_at,
+      descripcion: product.descripcion,
+      variantes: product.variantes ?? [],
+      images: images.map((image) => ({
+        id: image.id,
+        producto_id: product.id,
+        url: image.url,
+        alt: image.alt ?? null,
+        es_principal: Boolean(image.es_principal),
+        orden: image.orden ?? 0,
+        publicUrl: image.url.startsWith("http") ? image.url : supabase.storage.from("productos").getPublicUrl(image.url).data.publicUrl,
+      })),
     };
   });
 
@@ -58,11 +69,8 @@ export default async function AdminProductosPage() {
             <p className="eyebrow">Catálogo</p>
             <h1>Productos</h1>
           </div>
-          <Link className="admin-btn admin-btn-primary" href="/admin/productos/nuevo">
-            + Nuevo producto
-          </Link>
         </header>
-        <ProductTable products={products} categories={categories} />
+        <ProductListClient products={products} categories={categories} />
       </div>
     </main>
   );

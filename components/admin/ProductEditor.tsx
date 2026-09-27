@@ -32,7 +32,7 @@ function imageFormData(productId: string, file: File, imageId?: string) {
   return data;
 }
 
-export default function ProductEditor({ product, categories, initialImages }: { product: EditableProduct; categories: Category[]; initialImages: EditorImage[] }) {
+export default function ProductEditor({ product, categories, initialImages, onSuccess, onDirty }: { product: EditableProduct; categories: Category[]; initialImages: EditorImage[]; onSuccess?: () => void; onDirty?: () => void }) {
   const router = useRouter();
   const [images, setImages] = useState(initialImages);
   const [isPending, startTransition] = useTransition();
@@ -41,7 +41,7 @@ export default function ProductEditor({ product, categories, initialImages }: { 
   function run(action: () => Promise<void>, success: string) {
     setMessage(null);
     startTransition(async () => {
-      try { await action(); setMessage({ type: "success", text: success }); router.refresh(); }
+      try { await action(); setMessage({ type: "success", text: success }); router.refresh(); onSuccess?.(); }
       catch (error) { setMessage({ type: "error", text: error instanceof Error ? error.message : "No fue posible completar la acción." }); }
     });
   }
@@ -62,7 +62,7 @@ export default function ProductEditor({ product, categories, initialImages }: { 
   }
 
   return (
-    <form className="admin-editor" action={saveProduct}>
+    <form className="admin-editor" action={saveProduct} onChange={onDirty}>
       <input type="hidden" name="id" value={product.id} />
       <div className="admin-editor-grid">
         <section className="admin-panel">
