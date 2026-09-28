@@ -16,8 +16,8 @@ type Particle = { x: number; y: number; vx: number; vy: number; size: number };
 
 export default function AnimatedCanvas({
   particleCount = 60,
-  particleColor = "#b9ddc3",
-  lineColor = "rgba(185, 221, 195, 0.15)",
+  particleColor = "#4caf50",
+  lineColor = "rgba(76, 175, 80, 0.18)",
   particleSize = 2,
   connectionDistance = 120,
   speed = 0.3,

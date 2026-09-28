@@ -3,7 +3,7 @@
 import { Search, ShoppingBag, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion as useMotionReducedMotion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { Category, formatCop, lowestPrice, Product } from "@/lib/catalog";
 import { ProductImage } from "@/components/product-image";
@@ -14,6 +14,7 @@ export function CatalogBrowser({ categories, products }: { categories: Category[
   const [selected, setSelected] = useState<Product | null>(null);
   const [quote, setQuote] = useState<Product[]>([]);
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  const reducedMotion = useMotionReducedMotion();
   const modalRef = useRef<HTMLDivElement>(null);
   const lastFocusedElement = useRef<HTMLElement | null>(null);
   const [emblaRef] = useEmblaCarousel({ loop: true });
@@ -73,7 +74,7 @@ export function CatalogBrowser({ categories, products }: { categories: Category[
       </div>
     </div>
     <div className="catalog-meta"><span aria-live="polite">{result.length} {result.length === 1 ? "resultado" : "resultados"}</span><div className="catalog-meta-actions">{(query || category !== "Todos") && <button className="catalog-clear" type="button" onClick={() => { setQuery(""); setCategory("Todos"); }}>Limpiar filtros</button>}{quote.length > 0 && <button className="quote-counter" type="button" onClick={() => setSelected(quote[0])}><ShoppingBag size={16} /> {quote.length} en tu cotización</button>}</div></div>
-    <div className="catalog-grid">{result.map((product, index) => <motion.article className="catalog-card" key={product.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.04, duration: 0.35 }}>
+    <div className="catalog-grid">{result.map((product, index) => <motion.article className="catalog-card" key={product.id} initial={reducedMotion ? false : { opacity: 0, y: 26, rotate: index % 2 === 0 ? -2 : 2 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={reducedMotion ? undefined : { delay: index * 0.07, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}>
       <button type="button" className="product-image" onClick={() => openProduct(product)}><ProductImage src={product.image} alt={product.name} /><span>{product.category}</span></button>
       <div className="product-copy"><h2>{product.name}</h2><p>{product.description}</p><div className="product-footer"><strong>{lowestPrice(product.variants) ? `Desde ${formatCop(lowestPrice(product.variants))}` : "Consultar precio"}</strong><button type="button" onClick={() => openProduct(product)}>Ver detalle <span>↗</span></button></div></div>
     </motion.article>)}</div>
