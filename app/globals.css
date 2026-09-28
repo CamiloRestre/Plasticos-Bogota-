@@ -1,10 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  --font-display: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   --bg-primary: #0a0f0d;
   --bg-secondary: #111814;
   --bg-tertiary: #1a231e;
@@ -53,7 +55,7 @@ body {
   margin: 0;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: "Inter", sans-serif;
+  font-family: "Open Sans", sans-serif;
   line-height: 1.55;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -99,7 +101,7 @@ h2,
 h3,
 .brand strong,
 .footer-brand {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
   letter-spacing: -0.02em;
 }
 
@@ -319,7 +321,7 @@ h3,
   z-index: 1;
   max-width: 150px;
   color: #d6e6da;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: clamp(1rem, 2vw, 1.35rem);
   font-weight: 800;
   line-height: 1.05;
@@ -431,7 +433,7 @@ h3,
 
 .hero-stats strong {
   color: var(--green-light, #b9ddc3);
-  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.25rem;
 }
 
@@ -623,7 +625,7 @@ h3,
 .trust-bar-grid strong,
 .benefits-grid h3 {
   color: var(--forest);
-  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .trust-bar-grid span,
