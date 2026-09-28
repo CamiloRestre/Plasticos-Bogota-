@@ -1,6 +1,7 @@
 "use client";
 
 import { Package } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 type ProductImageProps = {
@@ -21,5 +22,5 @@ export function ProductImage({ src, alt, className = "" }: ProductImageProps) {
     );
   }
 
-  return <img className={className} src={src} alt={alt} onError={() => setHasError(true)} />;
+  return <Image className={className} src={src} alt={alt} width={960} height={768} sizes="(max-width: 768px) 100vw, (max-width: 1160px) 50vw, 33vw" loading="lazy" unoptimized onError={() => setHasError(true)} />;
 }

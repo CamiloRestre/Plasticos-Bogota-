@@ -1,8 +1,14 @@
 import { CatalogBrowser } from "@/components/catalog-browser";
 import { getCatalogData } from "@/lib/catalog-server";
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
 
 const AnimatedCanvas = dynamic(() => import("@/components/animated-canvas"), { ssr: false });
+
+export const metadata: Metadata = {
+  title: "Catálogo de bolsas y empaques | Plásticos Bogotá",
+  description: "Explora bolsas y empaques plásticos por categoría, medida y presentación.",
+};
 
 export default async function CatalogoPage() {
   const { categories, products } = await getCatalogData();

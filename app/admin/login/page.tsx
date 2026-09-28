@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, Suspense, useState } from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
@@ -47,9 +48,14 @@ function LoginForm() {
   return (
     <main className="admin-login">
       <section className="admin-login-card" aria-labelledby="login-title">
-        <div className="admin-login-brand" aria-hidden="true">
-          B
-        </div>
+        <Image
+          className="admin-login-brand"
+          src="/img/logo.png"
+          alt="Plásticos Bogotá"
+          width={190}
+          height={190}
+          priority
+        />
         <div className="admin-login-heading">
           <p className="eyebrow">Panel privado</p>
           <h1 id="login-title">Bienvenido de vuelta.</h1>

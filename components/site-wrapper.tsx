@@ -39,7 +39,8 @@ function BackToTop() {
 function WhatsAppFloat() {
   const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   if (!number) return null;
-  return <a className="whatsapp-float" href={`https://wa.me/${number}`} target="_blank" rel="noreferrer" aria-label="Escribir por WhatsApp">WA</a>;
+  const message = "Hola, quiero conocer el catálogo de bolsas y empaques de Plásticos Bogotá.";
+  return <a className="whatsapp-float" href={`https://wa.me/${number}?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer" aria-label="Escribir por WhatsApp" title="Escribir por WhatsApp">WA</a>;
 }
 
 export function SiteWrapper({ children }: Readonly<{ children: React.ReactNode }>) {

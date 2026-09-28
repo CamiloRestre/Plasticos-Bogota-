@@ -9,6 +9,7 @@ export type Variant = {
 
 export type Product = {
   id: string;
+  slug: string;
   name: string;
   category: string;
   description: string;
@@ -25,6 +26,11 @@ export type Category = {
 
 export function formatCop(value: number) {
   return value ? new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(value) : "Consultar";
+}
+
+export function lowestPrice(variants: Variant[]) {
+  const prices = variants.map((variant) => variant.price).filter((price) => price > 0);
+  return prices.length ? Math.min(...prices) : 0;
 }
 
 export function toProduct(
@@ -53,6 +59,7 @@ export function toProduct(
 
   return {
     id: product.id,
+    slug: product.slug ?? product.id,
     name: product.nombre,
     category: category?.name ?? "Sin categoría",
     description: product.descripcion ?? "Consulta disponibilidad y presentación con nuestro equipo.",

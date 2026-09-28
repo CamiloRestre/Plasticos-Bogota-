@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ExternalLink, LogOut, Package, Plus } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
@@ -25,7 +26,17 @@ export default function AdminHeader({ categories }: { categories: Category[] }) 
   return (
     <header className="admin-header">
       <div className="shell admin-header-inner">
-        <Link className="admin-brand" href="/admin"><span className="admin-brand-mark">B</span><span><strong>Panel Admin</strong><small>Plásticos Bogotá</small></span></Link>
+        <Link className="admin-brand" href="/admin">
+          <Image
+            src="/img/logo.png"
+            alt="Plásticos Bogotá"
+            width={120}
+            height={45}
+            priority
+            className="admin-brand-logo"
+          />
+          <span><strong>Panel Admin</strong><small>Gestión del catálogo</small></span>
+        </Link>
         <nav className="admin-nav" aria-label="Navegación del panel">
           <Link className={pathname.startsWith("/admin/productos") ? "is-active" : ""} href="/admin/productos"><Package size={16} /> Productos</Link>
           <button className="admin-nav-create" type="button" onClick={newProduct}><Plus size={16} /> Nuevo producto</button>

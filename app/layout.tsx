@@ -6,9 +6,15 @@ import { SiteWrapper } from "@/components/site-wrapper";
 export const metadata: Metadata = {
   title: "Plásticos Bogotá | Soluciones en empaques",
   description: "Catálogo de bolsas y empaques plásticos. Servimos en Colombia.",
+  openGraph: {
+    title: "Plásticos Bogotá | Soluciones en empaques",
+    description: "Catálogo de bolsas y empaques plásticos. Servimos en Colombia.",
+    type: "website",
+    locale: "es_CO",
+  },
   icons: {
-    icon: "/icon.svg",
-    apple: "/apple-icon.svg",
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
   },
 };
 
