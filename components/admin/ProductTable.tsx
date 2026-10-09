@@ -27,6 +27,7 @@ export type AdminProduct = {
   featured: boolean;
   variantCount: number;
   imageUrl: string | null;
+  imageId?: string | null;
   updatedAt: string | null;
   descripcion?: string | null;
   variantes?: Array<{ id: string; medida: string | null; calibre: string | null; presentacion: string | null; precio_bulto: number | null; precio_unidad: number | null; precio_kilo: number | null; stock: number | null; cantidad_unidades?: number | null }>;

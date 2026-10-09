@@ -35,6 +35,7 @@ export default async function AdminProductosPage() {
       active: Boolean(product.activo),
       featured: Boolean(product.destacado),
       variantCount: product.variantes?.length ?? 0,
+      imageId: images[0]?.id ?? null,
       imageUrl: images[0]?.url
         ? images[0].url.startsWith("http")
           ? images[0].url

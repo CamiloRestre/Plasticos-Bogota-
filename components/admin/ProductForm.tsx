@@ -3,7 +3,7 @@
 import { FormEvent, useState, useTransition } from "react";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
-import { createProducto, updateProducto, uploadProductoImage } from "@/app/admin/productos/actions";
+import { createProducto, replaceProductoImage, updateProducto, uploadProductoImage } from "@/app/admin/productos/actions";
 import type { ProductInput, VariantInput } from "@/lib/types";
 import ImageUploader from "./ImageUploader";
 import VariantsEditor, { type VariantDraft } from "./VariantsEditor";
@@ -11,6 +11,7 @@ import VariantsEditor, { type VariantDraft } from "./VariantsEditor";
 export type ProductFormProduct = ProductInput & {
   id?: string;
   imageUrl?: string | null;
+  imageId?: string | null;
   variantes?: Array<VariantDraft>;
 };
 
@@ -91,7 +92,12 @@ export default function ProductForm({ mode, product, categories, onSuccess, onCa
           const upload = new FormData();
           upload.set("producto_id", productId);
           upload.set("file", image);
-          await uploadProductoImage(upload);
+          if (mode === "edit" && product?.imageId) {
+            upload.set("imagen_id", product.imageId);
+            await replaceProductoImage(upload);
+          } else {
+            await uploadProductoImage(upload);
+          }
         }
         toast.success(mode === "create" ? "Producto creado correctamente." : "Producto actualizado correctamente.");
         onSuccess?.();
