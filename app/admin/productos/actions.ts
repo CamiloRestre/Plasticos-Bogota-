@@ -160,7 +160,7 @@ export async function uploadProductoImage(formData: FormData): Promise<ProductIm
     cacheControl: "3600",
     upsert: false,
   });
-  if (uploadError) throw new Error(`No fue posible subir la foto: ${uploadError.message}`);
+  if (uploadError) throw new Error(`No fue posible subir la foto al bucket productos: ${uploadError.message}`);
 
   const { data: lastImage } = await supabase
     .from("imagenes")

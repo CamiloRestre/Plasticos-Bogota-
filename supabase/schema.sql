@@ -26,7 +26,13 @@ create policy "authenticated writes variants" on variantes for all to authentica
 create policy "authenticated writes images" on imagenes for all to authenticated using (true) with check (true);
 create policy "authenticated writes offers" on ofertas for all to authenticated using (true) with check (true);
 
-insert into storage.buckets (id, name, public) values ('productos', 'productos', true) on conflict (id) do nothing;
+insert into storage.buckets (id, name, public)
+values ('productos', 'productos', true)
+on conflict (id) do update set public = true;
+drop policy if exists "public product media" on storage.objects;
+drop policy if exists "authenticated product media insert" on storage.objects;
+drop policy if exists "authenticated product media update" on storage.objects;
+drop policy if exists "authenticated product media delete" on storage.objects;
 create policy "public product media" on storage.objects for select using (bucket_id = 'productos');
 create policy "authenticated product media insert" on storage.objects for insert to authenticated with check (bucket_id = 'productos');
 create policy "authenticated product media update" on storage.objects for update to authenticated using (bucket_id = 'productos');
