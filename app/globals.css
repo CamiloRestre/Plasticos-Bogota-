@@ -2569,9 +2569,96 @@ h3,
   }
 }
 
-/* Dirección visual dark para las superficies públicas y operativas. */
+/* Identidad clara de Plásticos Bogotá: blanco, verde institucional y rojo de acción. */
+:root {
+  --bg-primary: #f7faf8;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eef6f0;
+  --bg-elevated: #ffffff;
+  --text-primary: #123f2a;
+  --text-secondary: #5d7065;
+  --text-muted: #809087;
+  --border-subtle: #dce9df;
+  --border-strong: #c6d8cb;
+  --forest: #123f2a;
+  --green: #2f7d4f;
+  --green-light: #d8e8dd;
+  --mint: #eef6f0;
+  --red: #e64d3e;
+  --ink: #183b2a;
+  --muted: #5d7065;
+  --line: #dce9df;
+  --paper: #ffffff;
+  --white: #ffffff;
+  --shadow-soft: 0 18px 50px rgba(18, 63, 42, 0.09);
+  --shadow-card: 0 25px 60px rgba(18, 63, 42, 0.12);
+  --shadow-glow: 0 0 40px rgba(47, 125, 79, 0.12);
+  --bg: #f7faf8;
+  --bg-hover: #f2f8f4;
+  --bg-input: #ffffff;
+  --text: #123f2a;
+  --green-dark: #1f633c;
+  --green-glow: rgba(47, 125, 79, 0.12);
+  --border: #dce9df;
+  --border-hover: #b8d1bf;
+  --text-muted: #809087;
+}
+
 body {
   background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.admin-main,
+.admin-page,
+.admin-login {
+  background: var(--bg-primary);
+}
+
+.admin-header {
+  color: var(--forest);
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(18, 63, 42, 0.08);
+}
+
+.admin-brand small,
+.admin-nav a,
+.admin-nav button,
+.admin-header-actions a,
+.admin-header-actions button {
+  color: var(--muted);
+}
+
+.admin-nav a:hover,
+.admin-nav button:hover,
+.admin-header-actions a:hover,
+.admin-header-actions button:hover,
+.admin-nav a.is-active {
+  color: var(--forest);
+  background: var(--mint);
+}
+
+.admin-header-actions button {
+  color: var(--red);
+}
+
+.admin-nav-create {
+  color: var(--white) !important;
+  background: var(--green) !important;
+}
+
+.site-footer,
+.product-marquee {
+  background: var(--forest);
+}
+
+.product-marquee::before {
+  background: linear-gradient(90deg, var(--forest), transparent);
+}
+
+.product-marquee::after {
+  background: linear-gradient(270deg, var(--forest), transparent);
 }
 
 .site-header {
