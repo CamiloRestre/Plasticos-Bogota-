@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink, LogOut, Package, Plus } from "lucide-react";
+import { ExternalLink, KeyRound, LogOut, Package, Plus } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
@@ -39,6 +39,7 @@ export default function AdminHeader({ categories }: { categories: Category[] }) 
         </Link>
         <nav className="admin-nav" aria-label="Navegación del panel">
           <Link className={pathname.startsWith("/admin/productos") ? "is-active" : ""} href="/admin/productos"><Package size={16} /> Productos</Link>
+          <Link className={pathname.startsWith("/admin/usuarios") ? "is-active" : ""} href="/admin/usuarios"><KeyRound size={16} /> Usuarios</Link>
           <button className="admin-nav-create" type="button" onClick={newProduct}><Plus size={16} /> Nuevo producto</button>
         </nav>
         <div className="admin-header-actions">

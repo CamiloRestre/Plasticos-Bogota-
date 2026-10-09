@@ -72,6 +72,26 @@ export default function AnimatedCanvas({
 
     const render = () => {
       context.clearRect(0, 0, width, height);
+      const centerX = width * 0.78;
+      const centerY = height * 0.5;
+      const pulse = reducedMotion ? 0 : Math.sin(performance.now() * 0.001) * 0.04;
+      const glow = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, Math.max(width, height) * 0.62);
+      glow.addColorStop(0, "rgba(183, 216, 52, 0.16)");
+      glow.addColorStop(0.32, "rgba(47, 125, 79, 0.08)");
+      glow.addColorStop(1, "rgba(247, 250, 248, 0)");
+      context.fillStyle = glow;
+      context.fillRect(0, 0, width, height);
+      context.save();
+      context.translate(centerX, centerY);
+      context.rotate(-0.18);
+      context.strokeStyle = "rgba(47, 125, 79, 0.16)";
+      context.lineWidth = 1;
+      for (const radius of [Math.min(width, height) * 0.22, Math.min(width, height) * 0.34, Math.min(width, height) * 0.46]) {
+        context.beginPath();
+        context.ellipse(0, 0, radius * 1.45, radius, pulse + radius * 0.001, 0, Math.PI * 2);
+        context.stroke();
+      }
+      context.restore();
       for (const particle of particles) {
         if (!reducedMotion && document.visibilityState !== "hidden") {
           if (pointer.active) {
