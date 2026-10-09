@@ -1156,6 +1156,7 @@ h3,
 
 .variant-row {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 20px;
   padding: 13px 0;
@@ -1169,10 +1170,141 @@ h3,
   color: var(--muted);
 }
 
+.variant-row > div {
+  flex: 1;
+}
+
+.variant-add {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  color: var(--forest);
+  background: var(--mint);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.variant-add:hover,
+.variant-add:focus-visible {
+  color: var(--white);
+  background: var(--green);
+}
+
 .modal-actions {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.quote-backdrop {
+  z-index: 60;
+}
+
+.quote-modal {
+  position: relative;
+  width: min(100%, 680px);
+  max-height: min(90vh, 760px);
+  overflow: auto;
+  padding: 36px;
+  background: var(--paper);
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+.quote-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding-right: 34px;
+}
+
+.quote-header h2 {
+  margin: 10px 0 0;
+  color: var(--forest);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1;
+}
+
+.quote-items {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.quote-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.quote-item > div:first-child {
+  min-width: 0;
+}
+
+.quote-item strong,
+.quote-item small,
+.quote-item span {
+  display: block;
+}
+
+.quote-item small,
+.quote-item span,
+.quote-note,
+.quote-empty {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.quote-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.quote-item-controls button {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--forest);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.quote-item-controls .quote-remove {
+  margin-left: 5px;
+  color: var(--red);
+  border: 0;
+  background: transparent;
+}
+
+.quote-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 22px;
+  padding-top: 18px;
+  color: var(--forest);
+  border-top: 2px solid var(--forest);
+  font-size: 1.1rem;
+}
+
+.quote-total strong {
+  font-size: 1.35rem;
+}
+
+.quote-actions {
+  margin-top: 22px;
 }
 
 .sr-only {
@@ -3612,6 +3744,19 @@ body {
 
   .modal-content {
     padding: 28px 22px;
+  }
+
+  .quote-modal {
+    padding: 28px 20px;
+  }
+
+  .quote-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .quote-item-controls {
+    align-self: flex-end;
   }
 
   .footer-bottom {
