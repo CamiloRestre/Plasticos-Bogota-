@@ -2,7 +2,16 @@ create extension if not exists "pgcrypto";
 
 create table if not exists categorias (id uuid primary key default gen_random_uuid(), nombre text not null unique, slug text not null unique, descripcion text, icono text, orden int default 0, created_at timestamptz default now());
 create table if not exists productos (id uuid primary key default gen_random_uuid(), categoria_id uuid references categorias(id) on delete set null, nombre text not null, descripcion text, slug text unique, activo boolean default true, destacado boolean default false, created_at timestamptz default now(), updated_at timestamptz default now());
-create table if not exists variantes (id uuid primary key default gen_random_uuid(), producto_id uuid references productos(id) on delete cascade, medida text, calibre text, presentacion text, precio_bulto numeric, precio_unidad numeric, precio_kilo numeric, unidad text default 'COP', stock int default 0, orden int default 0);
+create table if not exists variantes (id uuid primary key default gen_random_uuid(), producto_id uuid references productos(id) on delete cascade, medida text, calibre text, presentacion text, precio_bulto numeric, precio_unidad numeric, precio_kilo numeric, unidad text default 'COP', stock int default 0, orden int default 0, referencia varchar, ancho numeric, largo numeric, color varchar, material varchar, capacidad varchar, unidad_medida varchar, cantidad_unidades int, iva_incluido boolean default false);
+alter table variantes add column if not exists referencia varchar;
+alter table variantes add column if not exists ancho numeric;
+alter table variantes add column if not exists largo numeric;
+alter table variantes add column if not exists color varchar;
+alter table variantes add column if not exists material varchar;
+alter table variantes add column if not exists capacidad varchar;
+alter table variantes add column if not exists unidad_medida varchar;
+alter table variantes add column if not exists cantidad_unidades int;
+alter table variantes add column if not exists iva_incluido boolean default false;
 create table if not exists imagenes (id uuid primary key default gen_random_uuid(), producto_id uuid references productos(id) on delete cascade, url text not null, alt text, es_principal boolean default false, orden int default 0);
 create table if not exists ofertas (id uuid primary key default gen_random_uuid(), titulo text not null, descripcion text, descuento_pct int, producto_id uuid references productos(id) on delete cascade, fecha_inicio timestamptz, fecha_fin timestamptz, activa boolean default true);
 
