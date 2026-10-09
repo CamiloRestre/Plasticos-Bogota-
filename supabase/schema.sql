@@ -43,7 +43,6 @@ drop policy if exists "public product media" on storage.objects;
 drop policy if exists "authenticated product media insert" on storage.objects;
 drop policy if exists "authenticated product media update" on storage.objects;
 drop policy if exists "authenticated product media delete" on storage.objects;
-create policy "public product media" on storage.objects for select using (bucket_id = 'productos');
 create policy "authenticated product media insert" on storage.objects for insert to authenticated with check (bucket_id = 'productos');
 create policy "authenticated product media update" on storage.objects for update to authenticated using (bucket_id = 'productos');
 create policy "authenticated product media delete" on storage.objects for delete to authenticated using (bucket_id = 'productos');
