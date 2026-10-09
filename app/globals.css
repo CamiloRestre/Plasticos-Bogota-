@@ -1234,6 +1234,57 @@ h3,
   border-top: 1px solid var(--line);
 }
 
+.quote-customer-form {
+  margin-top: 24px;
+  padding: 18px;
+  background: var(--mint);
+  border: 1px solid var(--line);
+}
+
+.quote-customer-form h3 {
+  margin: 0 0 14px;
+  color: var(--forest);
+  font-size: 1rem;
+}
+
+.quote-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.quote-form-grid label {
+  display: grid;
+  gap: 5px;
+  color: var(--forest);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.quote-form-grid input {
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 10px;
+  color: var(--forest);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: inherit;
+  font-weight: 400;
+}
+
+.quote-form-grid input:focus {
+  outline: 2px solid rgba(47, 125, 79, 0.35);
+  outline-offset: 1px;
+}
+
+.quote-form-error {
+  margin: 12px 0 0;
+  color: #a52f2f;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 .quote-item {
   display: flex;
   align-items: center;
@@ -3748,6 +3799,10 @@ body {
 
   .quote-modal {
     padding: 28px 20px;
+  }
+
+  .quote-form-grid {
+    grid-template-columns: 1fr;
   }
 
   .quote-item {

@@ -15,12 +15,23 @@ type QuoteItem = {
   quantity: number;
 };
 
+type CustomerData = {
+  name: string;
+  business: string;
+  taxId: string;
+  phone: string;
+  city: string;
+  address: string;
+};
+
 export function CatalogBrowser({ categories, products }: { categories: Category[]; products: Product[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Todos");
   const [selected, setSelected] = useState<Product | null>(null);
   const [quote, setQuote] = useState<QuoteItem[]>([]);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const [customer, setCustomer] = useState<CustomerData>({ name: "", business: "", taxId: "", phone: "", city: "", address: "" });
+  const [customerError, setCustomerError] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const reducedMotion = useMotionReducedMotion();
   const modalRef = useRef<HTMLDivElement>(null);
@@ -87,29 +98,63 @@ export function CatalogBrowser({ categories, products }: { categories: Category[
       const variant = getVariant(item);
       return `${index + 1}. ${item.product.name} | ${variant.measure} | ${variant.presentation} | Cantidad: ${item.quantity} | ${formatCop(variant.price)} c/u`;
     });
-    return `Hola, quiero solicitar esta cotización:\n\n${lines.join("\n")}\n\nTotal de referencia: ${formatCop(quoteTotal())}\n\nQuedo atento a disponibilidad, IVA y envío.`;
+    return `Hola, quiero solicitar esta cotización.\n\nDatos del cliente:\nCliente: ${customer.name}\nNegocio: ${customer.business || "No informado"}\nNIT/Cédula: ${customer.taxId || "No informado"}\nTeléfono: ${customer.phone}\nCiudad: ${customer.city || "No informada"}\nDirección: ${customer.address || "No informada"}\n\nDetalle:\n${lines.join("\n")}\n\nTotal de referencia: ${formatCop(quoteTotal())}\n\nQuedo atento a disponibilidad, IVA y envío.`;
+  }
+
+  function hasCustomerData() {
+    if (!customer.name.trim() || !customer.phone.trim()) {
+      setCustomerError("Escribe el nombre y teléfono del cliente para continuar.");
+      return false;
+    }
+    setCustomerError("");
+    return true;
   }
 
   function downloadQuotePdf() {
-    if (!quote.length) return;
+    if (!quote.length || !hasCustomerData()) return;
     void import("jspdf").then(({ jsPDF }) => {
       const pdf = new jsPDF();
       const margin = 18;
       let y = 22;
       pdf.setFillColor(11, 75, 49);
-      pdf.rect(0, 0, 210, 34, "F");
+      pdf.rect(0, 0, 210, 42, "F");
       pdf.setTextColor(255, 255, 255);
-      pdf.setFontSize(18);
+      pdf.setFontSize(17);
       pdf.setFont("helvetica", "bold");
-      pdf.text("PLÁSTICOS BOGOTÁ", margin, 22);
+      pdf.text("PLÁSTICOS BOGOTÁ", margin, 16);
+      pdf.setFontSize(9);
+      pdf.setFont("helvetica", "normal");
+      pdf.text("Soluciones en empaques plásticos", margin, 23);
+      pdf.text("Tel. 602 232 5992 · Cel. 318 795 1504 · WhatsApp 312 218 4430", margin, 31);
+      pdf.text("Carrera 25 # 31-20, barrio Salesianos · Tuluá, Valle del Cauca", margin, 37);
       pdf.setTextColor(20, 48, 37);
       pdf.setFontSize(16);
-      pdf.text("Solicitud de cotización", margin, y + 28);
-      y += 40;
+      pdf.setFont("helvetica", "bold");
+      pdf.text("SOLICITUD DE COTIZACIÓN", margin, y + 32);
+      y += 47;
       pdf.setFontSize(10);
       pdf.setFont("helvetica", "normal");
       pdf.text(`Fecha: ${new Intl.DateTimeFormat("es-CO").format(new Date())}`, margin, y);
+      pdf.text("Valores expresados en pesos colombianos", 125, y);
       y += 12;
+      pdf.setFillColor(239, 247, 240);
+      pdf.setDrawColor(210, 222, 215);
+      pdf.rect(margin, y, 174, 34, "FD");
+      pdf.setTextColor(20, 48, 37);
+      pdf.setFont("helvetica", "bold");
+      pdf.text("DATOS DEL CLIENTE", margin + 5, y + 8);
+      pdf.setFont("helvetica", "normal");
+      pdf.text(`Cliente: ${customer.name}`, margin + 5, y + 16);
+      pdf.text(`Negocio: ${customer.business || "No informado"}`, 105, y + 16);
+      pdf.text(`NIT / Cédula: ${customer.taxId || "No informado"}`, margin + 5, y + 24);
+      pdf.text(`Teléfono: ${customer.phone}`, 105, y + 24);
+      pdf.text(`Ciudad: ${customer.city || "No informada"}`, margin + 5, y + 32);
+      pdf.text(`Dirección: ${customer.address || "No informada"}`, 105, y + 32);
+      y += 46;
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(12);
+      pdf.text("DETALLE DEL PEDIDO", margin, y);
+      y += 10;
       quote.forEach((item, index) => {
         const variant = getVariant(item);
         const subtotal = (variant.price ?? 0) * item.quantity;
@@ -129,13 +174,15 @@ export function CatalogBrowser({ categories, products }: { categories: Category[
       pdf.text(`Total de referencia: ${formatCop(quoteTotal())}`, margin, y + 8);
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(9);
-      pdf.text("Valores sujetos a confirmación de disponibilidad, IVA y envío.", margin, y + 17);
+      pdf.text("El total es de referencia. Plásticos Bogotá confirmará disponibilidad, IVA aplicable y costo de envío.", margin, y + 17);
+      pdf.text("Buscamos brindarle siempre el mejor servicio y calidad.", margin, y + 24);
+      pdf.text("Para confirmar condiciones de compra, comunícate con nuestro equipo comercial.", margin, y + 31);
       pdf.save(`cotizacion-plasticos-bogota-${Date.now()}.pdf`);
     });
   }
 
   function sendQuoteToWhatsApp() {
-    if (!quote.length) return;
+    if (!quote.length || !hasCustomerData()) return;
     window.open(`https://wa.me/573122184430?text=${encodeURIComponent(quoteMessage())}`, "_blank", "noopener,noreferrer");
   }
 
@@ -175,6 +222,18 @@ export function CatalogBrowser({ categories, products }: { categories: Category[
       <button type="button" className="modal-close" aria-label="Cerrar carrito" onClick={() => setQuoteOpen(false)}><X size={20} /></button>
       <div className="quote-header"><div><span className="eyebrow">Tu selección</span><h2 id="quote-title">Carrito de cotización</h2></div><ShoppingBag size={26} aria-hidden="true" /></div>
       {quote.length === 0 ? <p className="quote-empty">Aún no has añadido referencias.</p> : <>
+        <div className="quote-customer-form">
+          <h3>Datos para la cotización</h3>
+          <div className="quote-form-grid">
+            <label><span>Cliente *</span><input value={customer.name} onChange={(event) => setCustomer({ ...customer, name: event.target.value })} placeholder="Nombre completo" /></label>
+            <label><span>Teléfono *</span><input value={customer.phone} onChange={(event) => setCustomer({ ...customer, phone: event.target.value })} placeholder="312 000 0000" /></label>
+            <label><span>Negocio</span><input value={customer.business} onChange={(event) => setCustomer({ ...customer, business: event.target.value })} placeholder="Nombre del negocio" /></label>
+            <label><span>NIT / Cédula</span><input value={customer.taxId} onChange={(event) => setCustomer({ ...customer, taxId: event.target.value })} placeholder="Opcional" /></label>
+            <label><span>Ciudad</span><input value={customer.city} onChange={(event) => setCustomer({ ...customer, city: event.target.value })} placeholder="Tuluá" /></label>
+            <label><span>Dirección</span><input value={customer.address} onChange={(event) => setCustomer({ ...customer, address: event.target.value })} placeholder="Dirección de entrega" /></label>
+          </div>
+          {customerError && <p className="quote-form-error" role="alert">{customerError}</p>}
+        </div>
         <div className="quote-items">{quote.map((item) => { const variant = getVariant(item); return <div className="quote-item" key={item.id}><div><strong>{item.product.name}</strong><small>{variant.measure} · {variant.presentation}</small><span>{formatCop(variant.price)} por unidad</span></div><div className="quote-item-controls"><button type="button" aria-label="Disminuir cantidad" onClick={() => updateQuantity(item.id, item.quantity - 1)}><Minus size={15} /></button><strong>{item.quantity}</strong><button type="button" aria-label="Aumentar cantidad" onClick={() => updateQuantity(item.id, item.quantity + 1)}><Plus size={15} /></button><button type="button" className="quote-remove" aria-label="Eliminar referencia" onClick={() => updateQuantity(item.id, 0)}><Trash2 size={15} /></button></div></div>; })}</div>
         <div className="quote-total"><span>Total de referencia</span><strong>{formatCop(quoteTotal())}</strong></div>
         <p className="quote-note">El total es referencial y se confirma con disponibilidad, IVA y envío.</p>
